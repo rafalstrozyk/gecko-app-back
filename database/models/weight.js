@@ -16,24 +16,27 @@ const nameValidate = [
   }),
 ];
 
-const GeckoModelSchema = new Schema({
-  name: {
+const eatValidate = [
+  validate({
+    validator: 'isLength',
+    arguments: [3, 25],
+  }),
+];
+
+const weight = new Schema({
+  date_eating: { type: Date, required: [true, 'eating date is required'] },
+  gecko_name: {
     type: String,
-    required: [true, 'Name it is require'],
+    required: [true, 'Name it is required'],
     validate: nameValidate,
   },
-  buy_date: Date,
-  birth_date: Date,
-  sex: {
+  eat_type: {
     type: String,
-    max: 1,
+    required: [true, 'Type of eat is requred'],
+    validate: eatValidate,
   },
-  morph: String,
-  weight: Number,
-  weight_history: [],
-  eating_history: [],
 });
 
-const GeckoModel = mongoose.model('Gecko', GeckoModelSchema);
+const GeckoModel = mongoose.model('weight', weight);
 
 module.exports = GeckoModel;
