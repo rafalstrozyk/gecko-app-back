@@ -31,6 +31,7 @@ const GeckoModelSchema = new Schema({
   morph: String,
   weight: Number,
   weight_history: [],
+  eating: Date,
   eating_history: [],
 });
 
