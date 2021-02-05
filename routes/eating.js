@@ -9,7 +9,8 @@ const checkList = [
     .isArray({ min: 1 })
     .withMessage('geckos_id: You must post array witch geckos _id'),
   check('date_eating')
-    .isDate()
+    .trim()
+    .isDate({format:'dd/MM/yyyy'})
     .withMessage('date_eating : You must give date of eating'),
   check('eat_type')
     .isLength({ min: 3 })
@@ -27,10 +28,11 @@ router.get('/', (req, res, next) => {
 router.post('/', checkList, (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log(errors.array());
     return res.status(422).json({ errors: errors.array() });
   }
   const eatData = {
-    date_eating: req.body.date_eating,
+    date_eating: new Date(req.body.date_eating),
     eat_type: req.body.eat_type,
   };
 
