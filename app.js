@@ -9,23 +9,11 @@ const db = require('./database/index');
 
 const app = express();
 app.use(cors());
-
-// app.use(function (req, res, next) {
-//   res.setHeader(
-//     'Access-Control-Allow-Headers',
-//     'X-Requested-With,content-type, Accept,Authorization,Origin'
-//   );
-//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
-//   res.setHeader(
-//     'Access-Control-Allow-Methods',
-//     'GET, POST, OPTIONS, PUT, PATCH, DELETE'
-//   );
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-//   next();
-// });
 const indexRouter = require('./routes/index');
 const geckoRouter = require('./routes/gecko');
 const eatingRouter = require('./routes/eating');
+const uploadRouter = require('./routes/upload');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,7 +25,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static('public'))
+app.use('/static', express.static(path.join(__dirname, 'public')));
+
 
 db.once('open', () => {
   console.log('Database connected!');
@@ -50,6 +41,7 @@ db.on('error', (err) => {
 app.use('/', indexRouter);
 app.use('/gecko', geckoRouter);
 app.use('/eating', eatingRouter);
+app.use('/upload', uploadRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -66,6 +58,5 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;

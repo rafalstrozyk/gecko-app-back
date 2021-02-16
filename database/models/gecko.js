@@ -33,6 +33,7 @@ const GeckoModelSchema = new Schema({
   weight_history: [],
   eating: Date,
   eating_history: [],
+  photos: []
 });
 
 const GeckoModel = mongoose.model('Gecko', GeckoModelSchema);
